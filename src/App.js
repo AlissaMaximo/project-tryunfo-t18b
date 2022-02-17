@@ -61,13 +61,17 @@ class App extends React.Component {
   /* Requisito 2 */
   handleInputChange = ({ target: { name, value } }) => {
     // l. 8 em diante, Requisito 4.
-    this.setState({ [name]: name === 'cardTrunfo' ? true : value },
+    const { cardTrunfo, cards } = this.state;
+
+    this.setState({ [name]: name === 'cardTrunfo' ? !cardTrunfo : value },
       () => this.verifyForm()); // se o nome for cardTrunfo, que é o único que é de acionar ou não, então torna o valor no estado true.
   };
 
   /* Requisito 6 */
   handleSaveButtonClick = () => {
     console.log('oi do handleSaveButtonClick');
+    let containTrunfo = false;
+
     const {
       cardName,
       cardDescription,
@@ -94,7 +98,20 @@ class App extends React.Component {
       cardAttr3: '0',
       cardImage: '',
       cardRare: 'normal',
+      cardTrunfo: false,
+      hasTrunfo: false,
     });
+
+    // Requisito 7.
+    cards.forEach((card) => {
+      if (card.cardTrunfo === true) {
+        containTrunfo = true;
+        return containTrunfo;
+      }
+    });
+    if (containTrunfo === true) {
+      this.setState({ hasTrunfo: true, cardTrunfo: false });
+    }
   };
 
   render() {
