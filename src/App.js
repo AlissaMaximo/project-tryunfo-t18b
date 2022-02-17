@@ -61,7 +61,7 @@ class App extends React.Component {
   /* Requisito 2 */
   handleInputChange = ({ target: { name, value } }) => {
     // l. 8 em diante, Requisito 4.
-    const { cardTrunfo, cards } = this.state;
+    const { cardTrunfo } = this.state;
 
     this.setState({ [name]: name === 'cardTrunfo' ? !cardTrunfo : value },
       () => this.verifyForm()); // se o nome for cardTrunfo, que é o único que é de acionar ou não, então torna o valor no estado true.
