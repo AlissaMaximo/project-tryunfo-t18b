@@ -19,6 +19,7 @@ class App extends React.Component {
     cardTrunfo: false,
     hasTrunfo: false,
     isSaveButtonDisabled: true,
+    cards: [],
   }; // é o estado do App (componente parente)
 
   /* Requisito 5 */
@@ -64,8 +65,36 @@ class App extends React.Component {
       () => this.verifyForm()); // se o nome for cardTrunfo, que é o único que é de acionar ou não, então torna o valor no estado true.
   };
 
+  /* Requisito 6 */
   handleSaveButtonClick = () => {
     console.log('oi do handleSaveButtonClick');
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1, cardAttr2, cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      cards } = this.state;
+    cards.push({
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    });
+    this.setState({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'normal',
+    });
   };
 
   render() {
