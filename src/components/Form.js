@@ -16,40 +16,47 @@ class Form extends Component {
           data-testid="name-input"
           value={ cardName }
           onChange={ onInputChange }
+          name="cardName"
         />
         <textarea
           data-testid="description-input"
           value={ cardDescription }
           onChange={ onInputChange }
+          name="cardDescription"
         />
         <input
           type="number"
           data-testid="attr1-input"
           value={ cardAttr1 }
           onChange={ onInputChange }
+          name="cardAttr1"
         />
         <input
           type="number"
           data-testid="attr2-input"
           value={ cardAttr2 }
           onChange={ onInputChange }
+          name="cardAttr2"
         />
         <input
           type="number"
           data-testid="attr3-input"
           value={ cardAttr3 }
           onChange={ onInputChange }
+          name="cardAttr3"
         />
         <input
           type="text"
           data-testid="image-input"
           value={ cardImage }
           onChange={ onInputChange }
+          name="cardImage"
         />
         <select
           data-testid="rare-input"
           value={ cardRare }
           onChange={ onInputChange }
+          name="cardRare"
         >
           <option value="normal">Normal</option>
           <option value="raro">Raro</option>
@@ -60,12 +67,14 @@ class Form extends Component {
           data-testid="trunfo-input"
           checked={ cardTrunfo }
           onChange={ onInputChange }
+          name="cardTrunfo"
         />
         <button
           type="button"
           data-testid="save-button"
           disabled={ isSaveButtonDisabled }
           onClick={ onSaveButtonClick }
+          name="isSaveButtonDisabled"
         >
           Salvar
         </button>
@@ -75,31 +84,17 @@ class Form extends Component {
 }
 
 Form.propTypes = {
-  cardName: PropTypes.string,
-  cardDescription: PropTypes.string,
-  cardAttr1: PropTypes.string,
-  cardAttr2: PropTypes.string,
-  cardAttr3: PropTypes.string,
-  cardImage: PropTypes.string,
-  cardRare: PropTypes.string,
-  cardTrunfo: PropTypes.bool,
-  isSaveButtonDisabled: PropTypes.bool,
-  onInputChange: PropTypes.func,
-  onSaveButtonClick: PropTypes.func,
-};
-
-Form.defaultProps = {
-  cardName: 'default',
-  cardDescription: 'default',
-  cardAttr1: 'default',
-  cardAttr2: 'default',
-  cardAttr3: 'default',
-  cardImage: 'default',
-  cardRare: 'default',
-  cardTrunfo: 'default',
-  isSaveButtonDisabled: 'default',
-  onInputChange: 'default',
-  onSaveButtonClick: 'default',
+  cardAttr1: PropTypes.string.isRequired,
+  cardAttr2: PropTypes.string.isRequired,
+  cardAttr3: PropTypes.string.isRequired,
+  cardDescription: PropTypes.string.isRequired,
+  cardImage: PropTypes.string.isRequired,
+  cardName: PropTypes.string.isRequired,
+  cardRare: PropTypes.string.isRequired,
+  cardTrunfo: PropTypes.bool.isRequired,
+  isSaveButtonDisabled: PropTypes.bool.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  onSaveButtonClick: PropTypes.func.isRequired,
 };
 
 export default Form;

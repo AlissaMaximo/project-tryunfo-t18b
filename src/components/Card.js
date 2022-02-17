@@ -2,6 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Card extends Component {
+  constructor(props) {
+    super(props); // pega o estado do pai junto com a linha 7
+    this.state = {
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '',
+      cardAttr2: '',
+      cardAttr3: '',
+      cardImage: '',
+      cardRare: '',
+      cardTrunfo: false,
+      hasTrunfo: false,
+      isSaveButtonDisabled: false,
+    };
+  }
+
   render() {
     const {
       cardName, cardDescription,
@@ -32,25 +48,14 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-  cardName: PropTypes.string,
-  cardDescription: PropTypes.string,
-  cardAttr1: PropTypes.string,
-  cardAttr2: PropTypes.string,
-  cardAttr3: PropTypes.string,
-  cardImage: PropTypes.string,
-  cardRare: PropTypes.string,
-  cardTrunfo: PropTypes.bool,
-};
-
-Card.defaultProps = {
-  cardName: 'default',
-  cardDescription: 'default',
-  cardAttr1: 'default',
-  cardAttr2: 'default',
-  cardAttr3: 'default',
-  cardImage: 'default',
-  cardRare: 'default',
-  cardTrunfo: 'default',
+  cardAttr1: PropTypes.string.isRequired,
+  cardAttr2: PropTypes.string.isRequired,
+  cardAttr3: PropTypes.string.isRequired,
+  cardDescription: PropTypes.string.isRequired,
+  cardImage: PropTypes.string.isRequired,
+  cardName: PropTypes.string.isRequired,
+  cardRare: PropTypes.string.isRequired,
+  cardTrunfo: PropTypes.bool.isRequired,
 };
 
 export default Card;
