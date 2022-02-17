@@ -1,11 +1,6 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
-/*
-constructor(props) {
-  super(props);
-  this.onInputChange = this.onInputChange.bind(this);
-} */
 
 class App extends React.Component {
   state = {
@@ -146,6 +141,17 @@ class App extends React.Component {
           onInputChange={ this.handleInputChange }
           onSaveButtonClick={ this.handleSaveButtonClick }
         />
+        <Card
+          cardName={ cardName }
+          cardDescription={ cardDescription }
+          cardAttr1={ cardAttr1 }
+          cardAttr2={ cardAttr2 }
+          cardAttr3={ cardAttr3 }
+          cardImage={ cardImage }
+          cardRare={ cardRare }
+          cardTrunfo={ cardTrunfo }
+        />
+        {/* Requisito 8 */}
         { cards.map((card) => (<Card
           cardName={ card.cardName }
           cardDescription={ card.cardDescription }
