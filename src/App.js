@@ -30,26 +30,27 @@ class App extends React.Component {
       cardAttr3,
       cardImage,
       cardRare } = this.state;
-    let ableButtonCountDown = 7;
+    const ableButtonBools = [];
     const formStrings = [cardName, cardDescription, cardImage, cardRare];
     const formNumbers = [Number(cardAttr1), Number(cardAttr2), Number(cardAttr3)];
     const maxSum = formNumbers.reduce((acc, cur) => acc + cur);
     const TWO_HUNDRED_AND_TEN = 210;
     const NINETY = 90;
+    const SEVEN = 7;
 
     formStrings.forEach((string) => {
       if (string.length !== 0) {
-        ableButtonCountDown -= 1;
+        ableButtonBools.push('y');
       }
     });
     if (maxSum <= TWO_HUNDRED_AND_TEN) {
       formNumbers.forEach((number) => {
         if (number <= NINETY && number >= 0) {
-          ableButtonCountDown -= 1;
+          ableButtonBools.push('y');
         }
       });
     }
-    if (ableButtonCountDown === 0) {
+    if (ableButtonBools.length === SEVEN) {
       this.setState({ isSaveButtonDisabled: false });
     } else {
       this.setState({ isSaveButtonDisabled: true });
