@@ -2,22 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Card extends Component {
-  constructor(props) {
-    super(props); // pega o estado do pai junto com a linha 7
-    this.state = {
-      cardName: '',
-      cardDescription: '',
-      cardAttr1: '',
-      cardAttr2: '',
-      cardAttr3: '',
-      cardImage: '',
-      cardRare: '',
-      cardTrunfo: false,
-      hasTrunfo: false,
-      isSaveButtonDisabled: false,
-    };
-  }
-
   render() {
     const {
       cardName, cardDescription,

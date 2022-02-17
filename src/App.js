@@ -11,20 +11,56 @@ class App extends React.Component {
   state = {
     cardName: '',
     cardDescription: '',
-    cardAttr1: '',
-    cardAttr2: '',
-    cardAttr3: '',
+    cardAttr1: '0',
+    cardAttr2: '0',
+    cardAttr3: '0',
     cardImage: '',
-    cardRare: '',
+    cardRare: 'normal',
     cardTrunfo: false,
     hasTrunfo: false,
-    isSaveButtonDisabled: false,
+    isSaveButtonDisabled: true,
   }; // é o estado do App (componente parente)
+
+  /* Requisito 5 */
+  verifyForm = () => {
+    const { cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare } = this.state;
+    let ableButtonCountDown = 7;
+    const formStrings = [cardName, cardDescription, cardImage, cardRare];
+    const formNumbers = [Number(cardAttr1), Number(cardAttr2), Number(cardAttr3)];
+    const maxSum = formNumbers.reduce((acc, cur) => acc + cur);
+    const TWO_HUNDRED_AND_TEN = 210;
+    const NINETY = 90;
+
+    formStrings.forEach((string) => {
+      if (string.length !== 0) {
+        ableButtonCountDown -= 1;
+      }
+    });
+    if (maxSum <= TWO_HUNDRED_AND_TEN) {
+      formNumbers.forEach((number) => {
+        if (number <= NINETY && number >= 0) {
+          ableButtonCountDown -= 1;
+        }
+      });
+    }
+    if (ableButtonCountDown === 0) {
+      this.setState({ isSaveButtonDisabled: false });
+    } else {
+      this.setState({ isSaveButtonDisabled: true });
+    }
+  }
 
   /* Requisito 2 */
   handleInputChange = ({ target: { name, value } }) => {
-    console.log('oi do handleInputChange'); // l. 8 em diante, Requisito 4.
-    this.setState({ [name]: name === 'cardTrunfo' ? true : value }); // se o nome for cardTrunfo, que é o único que é de acionar ou não, então torna o valor no estado true.
+    // l. 8 em diante, Requisito 4.
+    this.setState({ [name]: name === 'cardTrunfo' ? true : value },
+      () => this.verifyForm()); // se o nome for cardTrunfo, que é o único que é de acionar ou não, então torna o valor no estado true.
   };
 
   handleSaveButtonClick = () => {
@@ -86,4 +122,6 @@ https://github.com/tryber/sd-018-b-project-tryunfo/pull/119/files para verificar
 https://github.com/tryber/sd-018-b-project-tryunfo/pull/128/files
 https://www.geeksforgeeks.org/how-to-set-the-default-value-for-an-html-select-element/
 
+Requisito 5: https://github.com/telerik/kendo-react/issues/327 https://github.com/telerik/kendo-react/issues/327
+https://flaviocopes.com/how-to-convert-string-to-number-javascript/
 */
