@@ -201,6 +201,7 @@ export default App;
 
 /*
 REFERÊNCIAS
+
 Requisito 4: https://stackoverflow.com/questions/35537229/how-can-i-update-the-parents-state-in-react
 https://github.com/tryber/sd-018-b-project-tryunfo/pull/119/files para verificar se é de marcar ou não.
 https://github.com/tryber/sd-018-b-project-tryunfo/pull/128/files
