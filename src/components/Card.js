@@ -19,7 +19,7 @@ class Card extends Component {
 
     return (
       <div>
-        <h4 data-testid="name-card">{ cardName }</h4>
+        <p data-testid="name-card">{ cardName }</p>
         <img src={ cardImage } alt={ cardName } data-testid="image-card" />
         <p data-testid="description-card">{ cardDescription }</p>
         <h6 data-testid="attr1-card">{ cardAttr1 }</h6>

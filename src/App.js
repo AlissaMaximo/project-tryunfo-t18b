@@ -4,12 +4,12 @@ import Card from './components/Card';
 
 class App extends React.Component {
   state = {
-    cardName: 'pikachu',
-    cardDescription: 'teste',
+    cardName: '',
+    cardDescription: '',
     cardAttr1: '0',
     cardAttr2: '0',
     cardAttr3: '0',
-    cardImage: 'teste',
+    cardImage: '',
     cardRare: 'normal',
     cardTrunfo: false,
     hasTrunfo: false,
@@ -17,6 +17,7 @@ class App extends React.Component {
     cards: [],
     shownFilteredCards: [],
     showAll: true,
+    filterName: '',
   }; // é o estado do App (componente parente)
 
   /* Requisito 5 */
@@ -126,15 +127,23 @@ class App extends React.Component {
     const { cards } = this.state;
     const newCardsArr = cards.filter((card) => card.cardName !== cardName);
 
-    this.setState({ cards: newCardsArr }, this.checkTrunfoInAllCards);
+    this.setState({ cards: newCardsArr }, () => this.checkTrunfoInAllCards);
   };
 
   /* Requisito 10 */
+  filterCards = (cards, filterName) => cards.filter((card) => {
+    if (filterName === '') {
+      return card;
+    }
+    return card.cardName.includes(filterName);
+  })
+
   handleSearchInputChange = ({ target: { value } }) => {
     const { cards } = this.state;
     // filtered cards é o que vai mostrar na tela, então é por último.
     const filteredCards = [];
 
+    this.setState({ filterName: value });
     cards.forEach((card) => {
       if (card.cardName.includes(value)) {
         filteredCards.push(card);
@@ -142,7 +151,7 @@ class App extends React.Component {
     });
     this.setState({ shownFilteredCards: filteredCards, showAll: false });
     if (value === '') {
-      this.setState({ showAll: true });
+      this.setState({ showAll: true, shownFilteredCards: [] });
     }
   };
 
@@ -150,7 +159,7 @@ class App extends React.Component {
     const { cards, shownFilteredCards } = this.state;
     if (shownFilteredCards.length !== 0) {
       return shownFilteredCards.map((card) => (
-        <section key={ card.cardName }>
+        <>
           <Card
             cardName={ card.cardName }
             cardDescription={ card.cardDescription }
@@ -169,7 +178,8 @@ class App extends React.Component {
           >
             Excluir
           </button>
-        </section>));
+        </>
+      ));
     }
   };
 
@@ -187,6 +197,8 @@ class App extends React.Component {
       isSaveButtonDisabled,
       cards,
       showAll,
+      shownFilteredCards,
+      filterName,
     } = this.state; // pegar o estado criado antes
 
     return (
@@ -224,7 +236,7 @@ class App extends React.Component {
             cards={ cards }
           />
           {/* Requisito 8 */}
-          { showAll && cards.map((card) => (
+          { cards && this.filterCards(cards, filterName).map((card) => (
             <section key={ card.cardName }>
               <Card
                 cardName={ card.cardName }
@@ -246,7 +258,7 @@ class App extends React.Component {
               </button>
             </section>)) }
           {/* Requisito 10 */}
-          { this.showFiltered() }
+          {/* { this.showFiltered() } */}
         </div>
       </>
     );
