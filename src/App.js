@@ -64,7 +64,6 @@ class App extends React.Component {
 
   /* Requisito 6 */
   handleSaveButtonClick = () => {
-    console.log('oi do handleSaveButtonClick');
     let containTrunfo = false;
 
     const {
@@ -109,6 +108,25 @@ class App extends React.Component {
     }
   };
 
+  /* Requisito 8 */
+  checkTrunfoInAllCards = () => {
+    const { cards } = this.state;
+    const trunfoCardExist = cards.find((card) => card.hasTrunfo === true);
+
+    if (trunfoCardExist) {
+      this.setState({ hasTrunfo: true });
+    } else {
+      this.setState({ hasTrunfo: false });
+    }
+  }
+
+  deleteCard = (cardName) => {
+    const { cards } = this.state;
+    const newCardsArr = cards.filter((card) => card.cardName !== cardName);
+
+    this.setState({ cards: newCardsArr }, this.checkTrunfoInAllCards);
+  };
+
   render() {
     const {
       cardName,
@@ -150,19 +168,30 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
+          cards={ cards }
         />
         {/* Requisito 8 */}
-        { cards.map((card) => (<Card
-          cardName={ card.cardName }
-          cardDescription={ card.cardDescription }
-          cardAttr1={ card.cardAttr1 }
-          cardAttr2={ card.cardAttr2 }
-          cardAttr3={ card.cardAttr3 }
-          cardImage={ card.cardImage }
-          cardRare={ card.cardRare }
-          cardTrunfo={ card.cardTrunfo }
-          key={ card.cardName }
-        />))}
+        { cards.map((card) => (
+          <section key={ card.cardName }>
+            <Card
+              cardName={ card.cardName }
+              cardDescription={ card.cardDescription }
+              cardAttr1={ card.cardAttr1 }
+              cardAttr2={ card.cardAttr2 }
+              cardAttr3={ card.cardAttr3 }
+              cardImage={ card.cardImage }
+              cardRare={ card.cardRare }
+              cardTrunfo={ card.cardTrunfo }
+              cards={ cards }
+            />
+            <button
+              type="button"
+              data-testid="delete-button"
+              onClick={ () => this.deleteCard(card.cardName) }
+            >
+              Excluir
+            </button>
+          </section>)) }
       </div>
     );
   }
@@ -179,4 +208,6 @@ https://www.geeksforgeeks.org/how-to-set-the-default-value-for-an-html-select-el
 
 Requisito 5: https://github.com/telerik/kendo-react/issues/327 https://github.com/telerik/kendo-react/issues/327
 https://flaviocopes.com/how-to-convert-string-to-number-javascript/
+
+Requisito 9:https://github.com/facebook/prop-types/issues/212
 */

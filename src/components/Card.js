@@ -2,22 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Card extends Component {
+  checkTrunfo = () => {
+    const { cardTrunfo } = this.props;
+    if (cardTrunfo) {
+      return (
+        <h5 data-testid="trunfo-card">Super Trunfo</h5>
+      );
+    }
+  };
+
   render() {
     const {
       cardName, cardDescription,
-      cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare, cardTrunfo,
+      cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare,
     } = this.props;
 
-    const checkTrunfo = () => {
-      if (cardTrunfo) {
-        return (
-          <h5 data-testid="trunfo-card">Super Trunfo</h5>
-        );
-      }
-    };
-
     return (
-      <section>
+      <div>
         <h4 data-testid="name-card">{ cardName }</h4>
         <img src={ cardImage } alt={ cardName } data-testid="image-card" />
         <p data-testid="description-card">{ cardDescription }</p>
@@ -25,8 +26,8 @@ class Card extends Component {
         <h6 data-testid="attr2-card">{ cardAttr2 }</h6>
         <h6 data-testid="attr3-card">{ cardAttr3 }</h6>
         <h5 data-testid="rare-card">{ cardRare }</h5>
-        {checkTrunfo()}
-      </section>
+        { this.checkTrunfo() }
+      </div>
     );
   }
 }
