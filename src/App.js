@@ -4,17 +4,19 @@ import Card from './components/Card';
 
 class App extends React.Component {
   state = {
-    cardName: '',
-    cardDescription: '',
+    cardName: 'pikachu',
+    cardDescription: 'teste',
     cardAttr1: '0',
     cardAttr2: '0',
     cardAttr3: '0',
-    cardImage: '',
+    cardImage: 'teste',
     cardRare: 'normal',
     cardTrunfo: false,
     hasTrunfo: false,
     isSaveButtonDisabled: true,
     cards: [],
+    shownFilteredCards: [],
+    showAll: true,
   }; // é o estado do App (componente parente)
 
   /* Requisito 5 */
@@ -127,6 +129,50 @@ class App extends React.Component {
     this.setState({ cards: newCardsArr }, this.checkTrunfoInAllCards);
   };
 
+  /* Requisito 10 */
+  handleSearchInputChange = ({ target: { value } }) => {
+    const { cards } = this.state;
+    // filtered cards é o que vai mostrar na tela, então é por último.
+    const filteredCards = [];
+
+    cards.forEach((card) => {
+      if (card.cardName.includes(value)) {
+        filteredCards.push(card);
+      }
+    });
+    this.setState({ shownFilteredCards: filteredCards, showAll: false });
+    if (value === '') {
+      this.setState({ showAll: true });
+    }
+  };
+
+  showFiltered = () => {
+    const { cards, shownFilteredCards } = this.state;
+    if (shownFilteredCards.length !== 0) {
+      return shownFilteredCards.map((card) => (
+        <section key={ card.cardName }>
+          <Card
+            cardName={ card.cardName }
+            cardDescription={ card.cardDescription }
+            cardAttr1={ card.cardAttr1 }
+            cardAttr2={ card.cardAttr2 }
+            cardAttr3={ card.cardAttr3 }
+            cardImage={ card.cardImage }
+            cardRare={ card.cardRare }
+            cardTrunfo={ card.cardTrunfo }
+            cards={ cards }
+          />
+          <button
+            type="button"
+            data-testid="delete-button"
+            onClick={ () => this.deleteCard(card.cardName) }
+          >
+            Excluir
+          </button>
+        </section>));
+    }
+  };
+
   render() {
     const {
       cardName,
@@ -140,59 +186,69 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       cards,
+      showAll,
     } = this.state; // pegar o estado criado antes
 
     return (
-      <div>
-        <h1>Tryunfo</h1>
-        <Form
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          hasTrunfo={ hasTrunfo }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          onInputChange={ this.handleInputChange }
-          onSaveButtonClick={ this.handleSaveButtonClick }
+      <>
+        <input
+          type="text"
+          data-testid="name-filter"
+          onChange={ this.handleSearchInputChange }
         />
-        <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          cards={ cards }
-        />
-        {/* Requisito 8 */}
-        { cards.map((card) => (
-          <section key={ card.cardName }>
-            <Card
-              cardName={ card.cardName }
-              cardDescription={ card.cardDescription }
-              cardAttr1={ card.cardAttr1 }
-              cardAttr2={ card.cardAttr2 }
-              cardAttr3={ card.cardAttr3 }
-              cardImage={ card.cardImage }
-              cardRare={ card.cardRare }
-              cardTrunfo={ card.cardTrunfo }
-              cards={ cards }
-            />
-            <button
-              type="button"
-              data-testid="delete-button"
-              onClick={ () => this.deleteCard(card.cardName) }
-            >
-              Excluir
-            </button>
-          </section>)) }
-      </div>
+        <div>
+          <h1>Tryunfo</h1>
+          <Form
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+            hasTrunfo={ hasTrunfo }
+            isSaveButtonDisabled={ isSaveButtonDisabled }
+            onInputChange={ this.handleInputChange }
+            onSaveButtonClick={ this.handleSaveButtonClick }
+          />
+          <Card
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+            cards={ cards }
+          />
+          {/* Requisito 8 */}
+          { showAll && cards.map((card) => (
+            <section key={ card.cardName }>
+              <Card
+                cardName={ card.cardName }
+                cardDescription={ card.cardDescription }
+                cardAttr1={ card.cardAttr1 }
+                cardAttr2={ card.cardAttr2 }
+                cardAttr3={ card.cardAttr3 }
+                cardImage={ card.cardImage }
+                cardRare={ card.cardRare }
+                cardTrunfo={ card.cardTrunfo }
+                cards={ cards }
+              />
+              <button
+                type="button"
+                data-testid="delete-button"
+                onClick={ () => this.deleteCard(card.cardName) }
+              >
+                Excluir
+              </button>
+            </section>)) }
+          {/* Requisito 10 */}
+          { this.showFiltered() }
+        </div>
+      </>
     );
   }
 }
