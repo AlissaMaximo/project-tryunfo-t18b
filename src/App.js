@@ -2,7 +2,7 @@ import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
 
-class App extends React.Component {
+export default class App extends React.Component {
   state = {
     cardName: '',
     cardDescription: '',
@@ -16,19 +16,13 @@ class App extends React.Component {
     isSaveButtonDisabled: true,
     cards: [],
     shownFilteredCards: [],
-    showAll: true,
     filterName: '',
+    filterRare: 'todas',
   }; // é o estado do App (componente parente)
 
-  /* Requisito 5 */
-  verifyForm = () => {
-    const { cardName,
-      cardDescription,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardImage,
-      cardRare } = this.state;
+  verifyForm = () => { // Requisito 5
+    const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
+      cardImage, cardRare } = this.state;
     const ableButtonBools = [];
     const formStrings = [cardName, cardDescription, cardImage, cardRare];
     const formNumbers = [Number(cardAttr1), Number(cardAttr2), Number(cardAttr3)];
@@ -56,17 +50,14 @@ class App extends React.Component {
     }
   }
 
-  /* Requisito 2 */
-  handleInputChange = ({ target: { name, value } }) => {
-    // l. 8 em diante, Requisito 4.
-    const { cardTrunfo } = this.state;
+  handleInputChange = ({ target: { name, value } }) => { // Requisito 2
+    const { cardTrunfo } = this.state; // em diante, Requisito 4.
 
     this.setState({ [name]: name === 'cardTrunfo' ? !cardTrunfo : value },
       () => this.verifyForm()); // se o nome for cardTrunfo, que é o único que é de acionar ou não, então torna o valor no estado true.
   };
 
-  /* Requisito 6 */
-  handleSaveButtonClick = () => {
+  handleSaveButtonClick = () => { // Requisito 6
     let containTrunfo = false;
 
     const {
@@ -99,8 +90,7 @@ class App extends React.Component {
       hasTrunfo: false,
     });
 
-    // Requisito 7.
-    cards.forEach((card) => {
+    cards.forEach((card) => { // Requisito 7.
       if (card.cardTrunfo === true) {
         containTrunfo = true;
         return containTrunfo;
@@ -111,8 +101,7 @@ class App extends React.Component {
     }
   };
 
-  /* Requisito 8 */
-  checkTrunfoInAllCards = () => {
+  checkTrunfoInAllCards = () => { // Requisito 8
     const { cards } = this.state;
     const trunfoCardExist = cards.find((card) => card.hasTrunfo === true);
 
@@ -127,21 +116,16 @@ class App extends React.Component {
     const { cards } = this.state;
     const newCardsArr = cards.filter((card) => card.cardName !== cardName);
 
-    this.setState({ cards: newCardsArr }, () => this.checkTrunfoInAllCards);
+    this.setState({ cards: newCardsArr }, () => this.checkTrunfoInAllCards());
   };
 
-  /* Requisito 10 */
-  filterCards = (cards, filterName) => cards.filter((card) => {
-    if (filterName === '') {
-      return card;
-    }
-    return card.cardName.includes(filterName);
-  })
+  filterCards = (cards, filterName, filterRare) => cards // Requisito 10
+    .filter((card) => (filterName === '' ? card : card.cardName.includes(filterName)))
+    .filter((card) => (filterRare === 'todas' ? card : card.cardRare === filterRare));
 
   handleSearchInputChange = ({ target: { value } }) => {
     const { cards } = this.state;
-    // filtered cards é o que vai mostrar na tela, então é por último.
-    const filteredCards = [];
+    const filteredCards = []; // filtered cards é o que vai mostrar na tela, então é por último.
 
     this.setState({ filterName: value });
     cards.forEach((card) => {
@@ -149,11 +133,15 @@ class App extends React.Component {
         filteredCards.push(card);
       }
     });
-    this.setState({ shownFilteredCards: filteredCards, showAll: false });
+    this.setState({ shownFilteredCards: filteredCards });
     if (value === '') {
-      this.setState({ showAll: true, shownFilteredCards: [] });
+      this.setState({ shownFilteredCards: [] });
     }
   };
+
+  handleSelectChange = ({ target: { value } }) => {
+    this.setState({ filterRare: value });
+  }
 
   showFiltered = () => {
     const { cards, shownFilteredCards } = this.state;
@@ -185,20 +173,8 @@ class App extends React.Component {
 
   render() {
     const {
-      cardName,
-      cardDescription,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardImage,
-      cardRare,
-      cardTrunfo,
-      hasTrunfo,
-      isSaveButtonDisabled,
-      cards,
-      showAll,
-      shownFilteredCards,
-      filterName,
+      cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare,
+      cardTrunfo, hasTrunfo, isSaveButtonDisabled, cards, filterName, filterRare,
     } = this.state; // pegar o estado criado antes
 
     return (
@@ -208,6 +184,12 @@ class App extends React.Component {
           data-testid="name-filter"
           onChange={ this.handleSearchInputChange }
         />
+        <select data-testid="rare-filter" onChange={ this.handleSelectChange }>
+          <option value="todas" selected>Todas</option>
+          <option value="normal">Normal</option>
+          <option value="raro">Raro</option>
+          <option value="muito raro">Muito Raro</option>
+        </select>
         <div>
           <h1>Tryunfo</h1>
           <Form
@@ -236,7 +218,7 @@ class App extends React.Component {
             cards={ cards }
           />
           {/* Requisito 8 */}
-          { cards && this.filterCards(cards, filterName).map((card) => (
+          { cards && this.filterCards(cards, filterName, filterRare).map((card) => (
             <section key={ card.cardName }>
               <Card
                 cardName={ card.cardName }
@@ -257,26 +239,8 @@ class App extends React.Component {
                 Excluir
               </button>
             </section>)) }
-          {/* Requisito 10 */}
-          {/* { this.showFiltered() } */}
         </div>
       </>
     );
   }
 }
-
-export default App;
-
-/*
-REFERÊNCIAS
-
-Requisito 4: https://stackoverflow.com/questions/35537229/how-can-i-update-the-parents-state-in-react
-https://github.com/tryber/sd-018-b-project-tryunfo/pull/119/files para verificar se é de marcar ou não.
-https://github.com/tryber/sd-018-b-project-tryunfo/pull/128/files
-https://www.geeksforgeeks.org/how-to-set-the-default-value-for-an-html-select-element/
-
-Requisito 5: https://github.com/telerik/kendo-react/issues/327 https://github.com/telerik/kendo-react/issues/327
-https://flaviocopes.com/how-to-convert-string-to-number-javascript/
-
-Requisito 9:https://github.com/facebook/prop-types/issues/212
-*/

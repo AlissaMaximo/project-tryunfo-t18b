@@ -1,0 +1,15 @@
+REFERÊNCIAS
+
+Requisito 4: https://stackoverflow.com/questions/35537229/how-can-i-update-the-parents-state-in-react
+https://github.com/tryber/sd-018-b-project-tryunfo/pull/119/files para verificar se é de marcar ou não.
+https://github.com/tryber/sd-018-b-project-tryunfo/pull/128/files
+https://www.geeksforgeeks.org/how-to-set-the-default-value-for-an-html-select-element/
+
+Requisito 5: https://github.com/telerik/kendo-react/issues/327 https://github.com/telerik/kendo-react/issues/327
+https://flaviocopes.com/how-to-convert-string-to-number-javascript/
+
+Requisito 9:https://github.com/facebook/prop-types/issues/212
+
+Requisito 10: Leo Oliveira auxiliou/guiou-me.
+
+Requisito 11: Leo Oliveira e Caio Swame auxiliaram/guiaram-me.
